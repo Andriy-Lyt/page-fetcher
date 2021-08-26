@@ -10,7 +10,7 @@ const [ url, path ] = process.argv.slice(2, 4);
 //enter below into console to run app:
 //node fetcher.js http://www.example.edu/ ./index.html
 
-//download file function
+// function to download a file
 const download = (url, path, cb) => {
 
   // fetch remote content function
@@ -29,7 +29,18 @@ const download = (url, path, cb) => {
       return
     }
 
-    //check if file 
+    //check for valid local path (if folder exists)
+    //remove file name, so  /files/docs/index.html = /files/docs
+    let tempAr = path.split("/");
+    // console.log(tempAr);
+    dirPath = tempAr.slice(0, tempAr.length - 1).join('/');
+    // console.log('dirPath: ', dirPath);
+    if (!fs.existsSync(dirPath)) {
+      console.log('incorrect file path provided, closing the app.');
+      return;
+    }
+
+    //check if file already exists
     if (fs.existsSync(path)) {
       rl.question(`File "${path}" already exists | "y"-override OR "n"-exit | hit enter `, (answer) => {
           console.log('answer: ', answer == 'n' ? 'no' : 'yes, writing file..');
