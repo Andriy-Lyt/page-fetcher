@@ -29,12 +29,13 @@ const download = (url, path, cb) => {
       return
     }
 
-    //check for valid local path (if folder exists)
     //remove file name, so  /files/docs/index.html = /files/docs
     let tempAr = path.split("/");
     // console.log(tempAr);
     dirPath = tempAr.slice(0, tempAr.length - 1).join('/');
     // console.log('dirPath: ', dirPath);
+
+    //check for valid local path (if folder exists)
     if (!fs.existsSync(dirPath)) {
       console.log('incorrect file path provided, closing the app.');
       return;
